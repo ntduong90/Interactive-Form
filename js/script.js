@@ -30,7 +30,6 @@ function shirtDesign() {
     colorSelect.disabled = true;
     designSelect.addEventListener('change', ()=> {
         let designIndex = designSelect.selectedIndex;
-        let colorIndex = colorSelect.selectedIndex;
         colorSelect.disabled = false;
         if (designIndex === 1) {
             colorSelect.options[1].style.display = '';
@@ -55,9 +54,68 @@ shirtDesign();
 //is unchecked.
 function activityFieldset() {
     let activityField = document.getElementById('activities');
+    let priceTotal = document.getElementById('activities-cost');
+    
     
     activityField.addEventListener('change', ()=> {
+        let activitySelect = document.getElementById('activities-box');
+        let mainCon = activitySelect.firstElementChild;
+        let jsWorkshop = mainCon.nextElementSibling;
+        let nodeWorkshop = jsWorkshop.nextElementSibling;
+        let jsFrameWorkshop = nodeWorkshop.nextElementSibling;
+        let buildWorkshop = jsFrameWorkshop.nextElementSibling;
+        let npmWorkshop = buildWorkshop.nextElementSibling;
+        let expressWorkshop = npmWorkshop.nextElementSibling;
+        let mainConPrice = mainCon.firstElementChild.getAttribute('data-cost');
+        let jsWorkshopPrice = jsWorkshop.firstElementChild.getAttribute('data-cost');
+        let nodeWorkshopPrice = nodeWorkshop.firstElementChild.getAttribute('data-cost');
+        
+       
+        
+        function runningTotal() {
+            let total = 0;
+            let sumTotal = "";
+            //main conference 
+            if (mainCon.firstElementChild.checked) {
+                total = total + parseInt(mainConPrice);
+                sumTotal = total;
+            } 
+            if (mainCon.firstElementChild.checked === false) {
+                sumTotal = sumTotal - mainConPrice;
+            }
+
+            //js libraries workshop
+            if (jsWorkshop.firstElementChild.checked) {
+                total = total + parseInt(jsWorkshopPrice);
+                sumTotal = total;
+            }
+            if (jsWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - jsWorkshopPrice;
+            }
+
+            //node js workshop
+            if (nodeWorkshop.firstElementChild.checked) {
+                total = total + parseInt(nodeWorkshopPrice);
+                sumTotal = total;
+            }
+            if (jsWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - nodeWorkshopPrice;
+            }
+
+
+            
+            console.log(total);
+            return total;
+        }
+        runningTotal();
+
+        
+        
+        
+        
+        
         
     });
 }
 activityFieldset();
+
