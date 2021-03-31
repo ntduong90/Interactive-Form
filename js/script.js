@@ -69,6 +69,11 @@ function activityFieldset() {
         let mainConPrice = mainCon.firstElementChild.getAttribute('data-cost');
         let jsWorkshopPrice = jsWorkshop.firstElementChild.getAttribute('data-cost');
         let nodeWorkshopPrice = nodeWorkshop.firstElementChild.getAttribute('data-cost');
+        let jsFrameWorkshopPrice = jsFrameWorkshop.firstElementChild.getAttribute('data-cost');
+        let buildWorkshopPrice = buildWorkshop.firstElementChild.getAttribute('data-cost');
+        let npmWorkshopPrice = npmWorkshop.firstElementChild.getAttribute('data-cost');
+        let expressWorkshopPrice = expressWorkshop.firstElementChild.getAttribute('data-cost');
+
         
        
         
@@ -98,13 +103,48 @@ function activityFieldset() {
                 total = total + parseInt(nodeWorkshopPrice);
                 sumTotal = total;
             }
-            if (jsWorkshop.firstElementChild.checked === false) {
+            if (nodeWorkshop.firstElementChild.checked === false) {
                 sumTotal = sumTotal - nodeWorkshopPrice;
             }
 
+            //js frameworks workshop
+            if (jsFrameWorkshop.firstElementChild.checked) {
+                total = total + parseInt(jsFrameWorkshopPrice);
+                sumTotal = total;
+            }
+            if (jsFrameWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - jsFrameWorkshopPrice;
+            }
+
+            //build tools workshop
+            if (buildWorkshop.firstElementChild.checked) {
+                total = total + parseInt(buildWorkshopPrice);
+                sumTotal = total;
+            }
+            if (buildWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - buildWorkshopPrice;
+            }
+
+            //npm workshop
+            if (npmWorkshop.firstElementChild.checked) {
+                total = total + parseInt(npmWorkshopPrice);
+                sumTotal = total;
+            }
+            if (npmWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - npmWorkshopPrice;
+            }
+
+            //express workshop
+            if (expressWorkshop.firstElementChild.checked) {
+                total = total + parseInt(expressWorkshopPrice);
+                sumTotal = total;
+            }
+            if (expressWorkshop.firstElementChild.checked === false) {
+                sumTotal = sumTotal - expressWorkshopPrice;
+            }
 
             
-            console.log(total);
+            priceTotal.textContent = `Total: $${total}`;
             return total;
         }
         runningTotal();
