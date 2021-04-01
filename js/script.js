@@ -147,15 +147,28 @@ function activityFieldset() {
             priceTotal.textContent = `Total: $${total}`;
             return total;
         }
-        runningTotal();
-
-        
-        
-        
-        
-        
-        
+        runningTotal();       
     });
 }
 activityFieldset();
+
+//Payment section. Default payment needs to be credit card
+//Searched google for .defaultSelected. Source: 
+//https://stackoverflow.com/questions/4134070/how-to-set-the-default-option-for-select-tag-and-how-to-get-the-index-of-the-sel
+function paymentMethod() {
+    let paymentSelect = document.getElementById('payment');
+    let creditCardBox = document.getElementById('credit-card');
+    paymentSelect.options[1].defaultSelected = true;
+
+    //payment method select listens for change to paypal or bitcoin to hide credit card box.
+    paymentSelect.addEventListener('change', ()=> {
+       
+       if (paymentSelect.selectedIndex === 2 || paymentSelect.selectedIndex === 3) {
+           creditCardBox.style.display = 'none';
+       } else if (paymentSelect.selectedIndex === 1) {
+           creditCardBox.style.display = '';
+       }       
+    });
+}
+paymentMethod();
 
