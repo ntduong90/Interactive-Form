@@ -1,3 +1,7 @@
+//global variables
+let form = document.querySelector('form');
+
+
 //Name field default focus
 function defaultFocus() {
     let nameFocus = document.getElementById('name');
@@ -55,10 +59,12 @@ shirtDesign();
 function activityFieldset() {
     let activityField = document.getElementById('activities');
     let priceTotal = document.getElementById('activities-cost');
+    let activitySelect = document.getElementById('activities-box');
+    let activityError = document.getElementById('activities-hint');
     
     
     activityField.addEventListener('change', ()=> {
-        let activitySelect = document.getElementById('activities-box');
+        //let activitySelect = document.getElementById('activities-box');
         let mainCon = activitySelect.firstElementChild;
         let jsWorkshop = mainCon.nextElementSibling;
         let nodeWorkshop = jsWorkshop.nextElementSibling;
@@ -142,7 +148,20 @@ function activityFieldset() {
             if (expressWorkshop.firstElementChild.checked === false) {
                 sumTotal = sumTotal - expressWorkshopPrice;
             }
-
+            
+            //validates if at least one activity is checked
+            function activityValidator() {
+    
+                if (total === 0) {
+                            
+                    activityError.style.display = 'inherit';
+                } else {
+                    activityError.style.display = 'none';
+                }
+                
+            }
+            activityValidator();
+            
             
             priceTotal.textContent = `Total: $${total}`;
             return total;
@@ -172,3 +191,40 @@ function paymentMethod() {
 }
 paymentMethod();
 
+//Input validation for name, email and activities. Referenced and used code for showOrHideTip and createListener from Team Treehouse regex workspace activity.
+let usernameInput = document.getElementById('name');
+let emailInput = document.getElementById('email');
+//let allActivities = document.querySelectorAll('input[type="checkbox"]');
+
+
+function nameValidator(username) {  
+    return /^([a-zA-Z]*)+\s?([a-zA-Z]*)+\s?$/.test(username);
+}
+
+function emailValidator(email) {
+    return /^[a-z0-9]+\@[a-z]+\.[a-z]+$/i.test(email);
+}
+
+
+
+function showOrHideTip (show, element) {
+    if (show) {
+        element.style.display = "inherit";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+function createListener(validator) {
+    return e => {
+        let text = e.target.value;
+        let valid = validator(text);
+        let showTip = text !== "" && !valid;
+        let toolTip = e.target.nextElementSibling;
+        showOrHideTip(showTip, toolTip);
+    };
+}
+createListener();
+
+usernameInput.addEventListener('input', createListener(nameValidator));
+emailInput.addEventListener('input', createListener(emailValidator));
