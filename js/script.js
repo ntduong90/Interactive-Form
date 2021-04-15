@@ -21,7 +21,8 @@ function selectJob() {
 }
 selectJob();
 
-//Color selection is locked until design is chosen. Chosen design will dictate available colors.
+//Color selection is locked until design is chosen. Chosen design will dictate available colors. Switching between design will reset
+//color selection to default.
 function shirtDesign() {
     let designSelect = document.getElementById('design');
     let colorSelect = document.getElementById('color');
@@ -30,19 +31,29 @@ function shirtDesign() {
         let designIndex = designSelect.selectedIndex;
         colorSelect.disabled = false;
         if (designIndex === 1) {
-            colorSelect.options[1].style.display = '';
-            colorSelect.options[2].style.display = '';
-            colorSelect.options[3].style.display = '';
+            colorSelect.options[1].style.display = 'inherit';
+            colorSelect.options[2].style.display = 'inherit';
+            colorSelect.options[3].style.display = 'inherit';
             colorSelect.options[4].style.display = 'none';
             colorSelect.options[5].style.display = 'none';
             colorSelect.options[6].style.display = 'none';
-        } else if (designIndex === 2) {
+            colorSelect.addEventListener('change', ()=> {
+                designSelect.addEventListener('change', ()=> {
+                    colorSelect.options[0].selected = true;
+                })
+            })  
+        } else if (designIndex === 2) {  
             colorSelect.options[1].style.display = 'none';
             colorSelect.options[2].style.display = 'none';
             colorSelect.options[3].style.display = 'none';
-            colorSelect.options[4].style.display = '';
-            colorSelect.options[5].style.display = '';
-            colorSelect.options[6].style.display = '';
+            colorSelect.options[4].style.display = 'inherit';
+            colorSelect.options[5].style.display = 'inherit';
+            colorSelect.options[6].style.display = 'inherit';
+            colorSelect.addEventListener('change', ()=> {
+                designSelect.addEventListener('change', ()=> {
+                    colorSelect.options[0].selected = true;
+                })
+            })
         }
     });
 }
@@ -53,127 +64,145 @@ shirtDesign();
 let activitySelect = document.getElementById('activities-box');
 let activityError = document.getElementById('activities-hint');
 let activityField = document.getElementById('activities');
+let mainCon = activitySelect.firstElementChild;
+let jsWorkshop = mainCon.nextElementSibling;
+let nodeWorkshop = jsWorkshop.nextElementSibling;
+let jsFrameWorkshop = nodeWorkshop.nextElementSibling;
+let buildWorkshop = jsFrameWorkshop.nextElementSibling;
+let npmWorkshop = buildWorkshop.nextElementSibling;
+let expressWorkshop = npmWorkshop.nextElementSibling;
+let mainConPrice = mainCon.firstElementChild.getAttribute('data-cost');
+let jsWorkshopPrice = jsWorkshop.firstElementChild.getAttribute('data-cost');
+let nodeWorkshopPrice = nodeWorkshop.firstElementChild.getAttribute('data-cost');
+let jsFrameWorkshopPrice = jsFrameWorkshop.firstElementChild.getAttribute('data-cost');
+let buildWorkshopPrice = buildWorkshop.firstElementChild.getAttribute('data-cost');
+let npmWorkshopPrice = npmWorkshop.firstElementChild.getAttribute('data-cost');
+let expressWorkshopPrice = expressWorkshop.firstElementChild.getAttribute('data-cost');
+let priceTotal = document.getElementById('activities-cost');
 
-function activityFieldset() {
-    // let activityField = document.getElementById('activities');
-    let priceTotal = document.getElementById('activities-cost');
+//EXCEEDS EXPECTATION ACTIVITY FIELD. Conflicting events will be disabled.      
+function runningTotal() {
+    let total = 0;
+    let sumTotal = "";
+    //main conference 
+    if (mainCon.firstElementChild.checked) {
+        total = total + parseInt(mainConPrice);
+        sumTotal = total;
+    } 
+    if (mainCon.firstElementChild.checked === false) {
+        sumTotal = sumTotal - mainConPrice;
+    }
+
+    //js libraries workshop
+    if (jsWorkshop.firstElementChild.checked) {
+        total = total + parseInt(jsWorkshopPrice);
+        sumTotal = total;
+        jsFrameWorkshop.firstElementChild.disabled = true;
+    }
+    if (jsWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - jsWorkshopPrice;
+        jsFrameWorkshop.firstElementChild.disabled = false;
+    }
+
+    //node js workshop
+    if (nodeWorkshop.firstElementChild.checked) {
+        total = total + parseInt(nodeWorkshopPrice);
+        sumTotal = total;
+        buildWorkshop.firstElementChild.disabled = true;
+    }
+    if (nodeWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - nodeWorkshopPrice;
+        buildWorkshop.firstElementChild.disabled = false;
+    }
+
+    //js frameworks workshop
+    if (jsFrameWorkshop.firstElementChild.checked) {
+        total = total + parseInt(jsFrameWorkshopPrice);
+        sumTotal = total;
+        jsWorkshop.firstElementChild.disabled = true;
+    }
+    if (jsFrameWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - jsFrameWorkshopPrice;
+        jsWorkshop.firstElementChild.disabled = false;
+    }
+
+    //build tools workshop
+    if (buildWorkshop.firstElementChild.checked) {
+        total = total + parseInt(buildWorkshopPrice);
+        sumTotal = total;
+        nodeWorkshop.firstElementChild.disabled = true;
+    }
+    if (buildWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - buildWorkshopPrice;
+        nodeWorkshop.firstElementChild.disabled = false;
+    }
+
+    //npm workshop
+    if (npmWorkshop.firstElementChild.checked) {
+        total = total + parseInt(npmWorkshopPrice);
+        sumTotal = total;
+    }
+    if (npmWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - npmWorkshopPrice;
+    }
+
+    //express workshop
+    if (expressWorkshop.firstElementChild.checked) {
+        total = total + parseInt(expressWorkshopPrice);
+        sumTotal = total;
+    }
+    if (expressWorkshop.firstElementChild.checked === false) {
+        sumTotal = sumTotal - expressWorkshopPrice;
+    }
+
+    priceTotal.textContent = `Total: $${total}`;
     
-    activityField.addEventListener('change', ()=> {
-        let mainCon = activitySelect.firstElementChild;
-        let jsWorkshop = mainCon.nextElementSibling;
-        let nodeWorkshop = jsWorkshop.nextElementSibling;
-        let jsFrameWorkshop = nodeWorkshop.nextElementSibling;
-        let buildWorkshop = jsFrameWorkshop.nextElementSibling;
-        let npmWorkshop = buildWorkshop.nextElementSibling;
-        let expressWorkshop = npmWorkshop.nextElementSibling;
-        let mainConPrice = mainCon.firstElementChild.getAttribute('data-cost');
-        let jsWorkshopPrice = jsWorkshop.firstElementChild.getAttribute('data-cost');
-        let nodeWorkshopPrice = nodeWorkshop.firstElementChild.getAttribute('data-cost');
-        let jsFrameWorkshopPrice = jsFrameWorkshop.firstElementChild.getAttribute('data-cost');
-        let buildWorkshopPrice = buildWorkshop.firstElementChild.getAttribute('data-cost');
-        let npmWorkshopPrice = npmWorkshop.firstElementChild.getAttribute('data-cost');
-        let expressWorkshopPrice = expressWorkshop.firstElementChild.getAttribute('data-cost');
-        
-        function runningTotal() {
-            let total = 0;
-            let sumTotal = "";
-            //main conference 
-            if (mainCon.firstElementChild.checked) {
-                total = total + parseInt(mainConPrice);
-                sumTotal = total;
-            } 
-            if (mainCon.firstElementChild.checked === false) {
-                sumTotal = sumTotal - mainConPrice;
-            }
-
-            //js libraries workshop
-            if (jsWorkshop.firstElementChild.checked) {
-                total = total + parseInt(jsWorkshopPrice);
-                sumTotal = total;
-            }
-            if (jsWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - jsWorkshopPrice;
-            }
-
-            //node js workshop
-            if (nodeWorkshop.firstElementChild.checked) {
-                total = total + parseInt(nodeWorkshopPrice);
-                sumTotal = total;
-            }
-            if (nodeWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - nodeWorkshopPrice;
-            }
-
-            //js frameworks workshop
-            if (jsFrameWorkshop.firstElementChild.checked) {
-                total = total + parseInt(jsFrameWorkshopPrice);
-                sumTotal = total;
-            }
-            if (jsFrameWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - jsFrameWorkshopPrice;
-            }
-
-            //build tools workshop
-            if (buildWorkshop.firstElementChild.checked) {
-                total = total + parseInt(buildWorkshopPrice);
-                sumTotal = total;
-            }
-            if (buildWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - buildWorkshopPrice;
-            }
-
-            //npm workshop
-            if (npmWorkshop.firstElementChild.checked) {
-                total = total + parseInt(npmWorkshopPrice);
-                sumTotal = total;
-            }
-            if (npmWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - npmWorkshopPrice;
-            }
-
-            //express workshop
-            if (expressWorkshop.firstElementChild.checked) {
-                total = total + parseInt(expressWorkshopPrice);
-                sumTotal = total;
-            }
-            if (expressWorkshop.firstElementChild.checked === false) {
-                sumTotal = sumTotal - expressWorkshopPrice;
-            }
-            
-            //validates if at least one activity is checked
-            if (total === 0) {             
-                activityError.style.display = 'inherit';
-            } else {
-                activityError.style.display = 'none';
-            }
-                
-            priceTotal.textContent = `Total: $${total}`;
-            return total;
-        }
-        runningTotal();       
-    });
+    if (total > 0) {
+        return true;
+    } else if (total === 0) {
+        return false;
+    }
+    
 }
-activityFieldset();
+runningTotal();
 
+//listens for change in activity field and returns true or false. 
+activityField.addEventListener('change', ()=> {
+    runningTotal();
+})
+    
 //Payment section. Default payment needs to be credit card
 //Searched google for .defaultSelected. Source: 
 //https://stackoverflow.com/questions/4134070/how-to-set-the-default-option-for-select-tag-and-how-to-get-the-index-of-the-sel
 
 let paymentSelect = document.getElementById('payment');
 let creditCardBox = document.getElementById('credit-card');
+let bitcoinBox = document.getElementById('bitcoin');
+let paypalBox = document.getElementById('paypal');
 
 function paymentMethod() {
     
     paymentSelect.options[1].defaultSelected = true;
+    bitcoinBox.style.display = 'none';
+    paypalBox.style.display = 'none';
 
     //payment method select listens for change to paypal or bitcoin to hide credit card box.
     paymentSelect.addEventListener('change', ()=> {
        
-       if (paymentSelect.selectedIndex === 2 || paymentSelect.selectedIndex === 3) {
+       //if payment is credit card, hide paypal and bitcoin
+       if (paymentSelect.selectedIndex === 1) {
+        paypalBox.style.display = 'none';
+        bitcoinBox.style.display = 'none';
+        creditCardBox.style.display = 'inherit';
+       } else if (paymentSelect.selectedIndex === 2) {
            creditCardBox.style.display = 'none';
-       } else if (paymentSelect.selectedIndex === 1) {
-           creditCardBox.style.display = 'inherit';
-       }   
+           bitcoinBox.style.display = 'none';
+           paypalBox.style.display = 'inherit';
+       } else if (paymentSelect.selectedIndex === 3) {
+           paypalBox.style.display = 'none';
+           creditCardBox.style.display = 'none';
+           bitcoinBox.style.display = 'inherit';
+       } 
     });
 }
 paymentMethod();
@@ -203,7 +232,7 @@ function nameValidator() {
             usernameInput.parentElement.className = 'valid';
         } else if (validName.test(usernameInput.value) === false) {
             usernameInput.parentElement.className = 'not-valid';
-            usernameInput.nextElementSibling.textContent = 'Please enter a valid name';
+            usernameInput.nextElementSibling.textContent = 'Please enter a valid name. Name cannot include symbols or numbers and cannot be blank.';
             usernameInput.nextElementSibling.style.display = 'inherit';
         }
     })
@@ -281,19 +310,6 @@ function cvvValidator() {
 }
 cvvValidator();
 
-
-function activityValidator() {
-    let activityTotal = document.getElementById('activities-cost');
-    let activityErr = document.getElementById('activities-hint');
-    if (activityTotal.textContent === 'Total: $0') {  
-        activityErr.style.display = 'inherit';
-        return false;
-    } else {
-        activityErr.style.display = 'none';
-        return true;
-    }  
-}
-
 //Accessability
 function inputFocus () {
     let activityFocus = document.querySelectorAll('input[type="checkbox"]');
@@ -322,7 +338,7 @@ form.addEventListener('submit', (e)=> {
         usernameInput.parentElement.className = 'valid';
     } else if (validName.test(usernameInput.value) === false) {
         usernameInput.parentElement.className = 'not-valid';
-        usernameInput.nextElementSibling.textContent = 'Please enter a valid name';
+        usernameInput.nextElementSibling.textContent = 'Please enter a valid name. Name cannot be blank.';
         usernameInput.nextElementSibling.style.display = 'inherit';
         e.preventDefault();
     }
@@ -341,6 +357,8 @@ form.addEventListener('submit', (e)=> {
         emailInput.nextElementSibling.style.display = 'inherit';
         e.preventDefault();
     }
+
+   
 
     //credit card number submit validation if credit card was selected 
     if (paymentSelect.selectedIndex === 1) {
@@ -386,12 +404,20 @@ form.addEventListener('submit', (e)=> {
             e.preventDefault();
         }
        
+
     }   
 
-    if (activityValidator()) {
-        activityField.className = 'valid';
-    } else {
-        activityField.className = 'not-valid';
+    //activity submit validation
+    if (runningTotal() === true) {
+        activityField.classList.add('valid');
+        activityField.classList.remove('not-valid');
+        activityError.style.display = 'none';
+    } else if (runningTotal() === false) {
+        activityField.classList.remove('valid');
+        activityField.classList.add('not-valid');
+        activityError.style.display = 'inherit';
         e.preventDefault();
     }
+    
+   
 });
