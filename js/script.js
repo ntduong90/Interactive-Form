@@ -98,10 +98,12 @@ function runningTotal() {
         total = total + parseInt(jsWorkshopPrice);
         sumTotal = total;
         jsFrameWorkshop.firstElementChild.disabled = true;
+        jsFrameWorkshop.classList.add('disabled');
     }
     if (jsWorkshop.firstElementChild.checked === false) {
         sumTotal = sumTotal - jsWorkshopPrice;
         jsFrameWorkshop.firstElementChild.disabled = false;
+        jsFrameWorkshop.classList.remove('disabled');
     }
 
     //node js workshop
@@ -109,10 +111,12 @@ function runningTotal() {
         total = total + parseInt(nodeWorkshopPrice);
         sumTotal = total;
         buildWorkshop.firstElementChild.disabled = true;
+        buildWorkshop.classList.add('disabled');
     }
     if (nodeWorkshop.firstElementChild.checked === false) {
         sumTotal = sumTotal - nodeWorkshopPrice;
         buildWorkshop.firstElementChild.disabled = false;
+        buildWorkshop.classList.remove('disabled');
     }
 
     //js frameworks workshop
@@ -120,10 +124,12 @@ function runningTotal() {
         total = total + parseInt(jsFrameWorkshopPrice);
         sumTotal = total;
         jsWorkshop.firstElementChild.disabled = true;
+        jsWorkshop.classList.add('disabled');
     }
     if (jsFrameWorkshop.firstElementChild.checked === false) {
         sumTotal = sumTotal - jsFrameWorkshopPrice;
         jsWorkshop.firstElementChild.disabled = false;
+        jsWorkshop.classList.remove('disabled');
     }
 
     //build tools workshop
@@ -131,10 +137,12 @@ function runningTotal() {
         total = total + parseInt(buildWorkshopPrice);
         sumTotal = total;
         nodeWorkshop.firstElementChild.disabled = true;
+        nodeWorkshop.classList.add('disabled');
     }
     if (buildWorkshop.firstElementChild.checked === false) {
         sumTotal = sumTotal - buildWorkshopPrice;
         nodeWorkshop.firstElementChild.disabled = false;
+        nodeWorkshop.classList.remove('disabled');
     }
 
     //npm workshop
